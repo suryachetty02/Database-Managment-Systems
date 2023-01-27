@@ -1,0 +1,252 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 5.5.62 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| school             |
+| sse                |
+| test               |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> use sse;
+Database changed
+mysql> desc faculty;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Fac_No    | varchar(6)  | NO   | PRI |         |       |
+| Fac_Name  | varchar(15) | YES  |     | NULL    |       |
+| Gender    | char(1)     | YES  |     | NULL    |       |
+| Mobile_No | int(10)     | YES  |     | NULL    |       |
+| Salary    | int(6)      | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> select * from faculty;
++--------+-----------------+--------+-----------+--------+
+| Fac_No | Fac_Name        | Gender | Mobile_No | Salary |
++--------+-----------------+--------+-----------+--------+
+| EJALP  | LilyAldrin      | F      | 833734709 |  35000 |
+| EJSMOP | MarshalEriksen  | M      | 833491709 |  45000 |
+| IEFCOP | BarneyStinson   | M      | 807271709 |  80000 |
+| IEJCOP | TedMosby        | M      | 807371709 |  30000 |
+| RJSCOP | RobinSchebotsky | F      | 838371709 |  40000 |
++--------+-----------------+--------+-----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select * from faculty where fac_no BETWEEN EJALP AND IEJCOP;
+ERROR 1054 (42S22): Unknown column 'EJALP' in 'where clause'
+mysql> select * from faculty where salary BETWEEN 35000 AND 30000;
+Empty set (0.00 sec)
+
+mysql> select * from student where regno BETWEEN 123 AND 543;
+ERROR 1146 (42S02): Table 'sse.student' doesn't exist
+mysql> select * from faculty where regno BETWEEN 123 AND 543;
+ERROR 1054 (42S22): Unknown column 'regno' in 'where clause'
+mysql> select * from faculty where salary BETWEEN 123 AND 543;
+Empty set (0.00 sec)
+
+mysql> select * from faculty where salary BETWEEN 35000 AND 30000;
+Empty set (0.00 sec)
+
+mysql> drop Fac_No from faculty;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Fac_No from faculty' at line 1
+mysql>
+mysql> alter table faculty
+    -> drop column Fac_No
+    -> ;
+Query OK, 5 rows affected (0.05 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from faculty ;
++-----------------+--------+-----------+--------+
+| Fac_Name        | Gender | Mobile_No | Salary |
++-----------------+--------+-----------+--------+
+| LilyAldrin      | F      | 833734709 |  35000 |
+| MarshalEriksen  | M      | 833491709 |  45000 |
+| BarneyStinson   | M      | 807271709 |  80000 |
+| TedMosby        | M      | 807371709 |  30000 |
+| RobinSchebotsky | F      | 838371709 |  40000 |
++-----------------+--------+-----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> alter table faculty;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql>
+mysql> alter table faculty
+    -> add RegNo;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+mysql> alter table faculty
+    -> add RegNo int(10);
+Query OK, 5 rows affected (0.03 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from faculty ;
++-----------------+--------+-----------+--------+-------+
+| Fac_Name        | Gender | Mobile_No | Salary | RegNo |
++-----------------+--------+-----------+--------+-------+
+| LilyAldrin      | F      | 833734709 |  35000 |  NULL |
+| MarshalEriksen  | M      | 833491709 |  45000 |  NULL |
+| BarneyStinson   | M      | 807271709 |  80000 |  NULL |
+| TedMosby        | M      | 807371709 |  30000 |  NULL |
+| RobinSchebotsky | F      | 838371709 |  40000 |  NULL |
++-----------------+--------+-----------+--------+-------+
+5 rows in set (0.00 sec)
+
+mysql> update Reg=1920 where Fac_No='LilyAldrin' from faculty;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1920 where Fac_No='LilyAldrin' from faculty' at line 1
+mysql> update set Reg=1920 where Fac_No='LilyAldrin' from faculty;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'set Reg=1920 where Fac_No='LilyAldrin' from faculty' at line 1
+mysql> update faculty set Reg=1920 where Fac_No='LilyAldrin';
+ERROR 1054 (42S22): Unknown column 'Fac_No' in 'where clause'
+mysql> update faculty set Reg=1920 where Fac_Name='LilyAldrin';
+ERROR 1054 (42S22): Unknown column 'Reg' in 'field list'
+mysql> update faculty set RegNo=1920 where Fac_Name='LilyAldrin';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from faculty;
++-----------------+--------+-----------+--------+-------+
+| Fac_Name        | Gender | Mobile_No | Salary | RegNo |
++-----------------+--------+-----------+--------+-------+
+| LilyAldrin      | F      | 833734709 |  35000 |  1920 |
+| MarshalEriksen  | M      | 833491709 |  45000 |  NULL |
+| BarneyStinson   | M      | 807271709 |  80000 |  NULL |
+| TedMosby        | M      | 807371709 |  30000 |  NULL |
+| RobinSchebotsky | F      | 838371709 |  40000 |  NULL |
++-----------------+--------+-----------+--------+-------+
+5 rows in set (0.00 sec)
+
+mysql> update faculty set RegNo=1920 where Fac_Name='MarshalEriken';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update faculty set RegNo=1921 where Fac_Name='MarshalEriken';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> select * from faculty;
++-----------------+--------+-----------+--------+-------+
+| Fac_Name        | Gender | Mobile_No | Salary | RegNo |
++-----------------+--------+-----------+--------+-------+
+| LilyAldrin      | F      | 833734709 |  35000 |  1920 |
+| MarshalEriksen  | M      | 833491709 |  45000 |  NULL |
+| BarneyStinson   | M      | 807271709 |  80000 |  NULL |
+| TedMosby        | M      | 807371709 |  30000 |  NULL |
+| RobinSchebotsky | F      | 838371709 |  40000 |  NULL |
++-----------------+--------+-----------+--------+-------+
+5 rows in set (0.00 sec)
+
+mysql> update faculty set RegNo=1921 where Fac_Name='MarshalEriken';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update faculty set RegNo=1921 where Fac_Name='MarshalEriksen';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update faculty set RegNo=1922 where Fac_Name='BarneyStinson';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update faculty set RegNo=1924 where Fac_Name='TedMosby';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update faculty set RegNo=1932 where Fac_Name='RobinSchebotsky';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from faculty;
++-----------------+--------+-----------+--------+-------+
+| Fac_Name        | Gender | Mobile_No | Salary | RegNo |
++-----------------+--------+-----------+--------+-------+
+| LilyAldrin      | F      | 833734709 |  35000 |  1920 |
+| MarshalEriksen  | M      | 833491709 |  45000 |  1921 |
+| BarneyStinson   | M      | 807271709 |  80000 |  1922 |
+| TedMosby        | M      | 807371709 |  30000 |  1924 |
+| RobinSchebotsky | F      | 838371709 |  40000 |  1932 |
++-----------------+--------+-----------+--------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from faculty where RegNo BETWEEN 1920 AND 1924;
++----------------+--------+-----------+--------+-------+
+| Fac_Name       | Gender | Mobile_No | Salary | RegNo |
++----------------+--------+-----------+--------+-------+
+| LilyAldrin     | F      | 833734709 |  35000 |  1920 |
+| MarshalEriksen | M      | 833491709 |  45000 |  1921 |
+| BarneyStinson  | M      | 807271709 |  80000 |  1922 |
+| TedMosby       | M      | 807371709 |  30000 |  1924 |
++----------------+--------+-----------+--------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from faculty where RegNo BETWEEN 1920 AND 1922;
++----------------+--------+-----------+--------+-------+
+| Fac_Name       | Gender | Mobile_No | Salary | RegNo |
++----------------+--------+-----------+--------+-------+
+| LilyAldrin     | F      | 833734709 |  35000 |  1920 |
+| MarshalEriksen | M      | 833491709 |  45000 |  1921 |
+| BarneyStinson  | M      | 807271709 |  80000 |  1922 |
++----------------+--------+-----------+--------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from faculty where Gender='M' AND RegNo=1922;
++---------------+--------+-----------+--------+-------+
+| Fac_Name      | Gender | Mobile_No | Salary | RegNo |
++---------------+--------+-----------+--------+-------+
+| BarneyStinson | M      | 807271709 |  80000 |  1922 |
++---------------+--------+-----------+--------+-------+
+1 row in set (0.00 sec)
+
+mysql> select max(RegNo) from faculty;
++------------+
+| max(RegNo) |
++------------+
+|       1932 |
++------------+
+1 row in set (0.01 sec)
+
+mysql> select max(salary) where RegNo=1922;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where RegNo=1922' at line 1
+mysql> select max(salary) where RegNo=1922 from faculty;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where RegNo=1922 from faculty' at line 1
+mysql> select from faculty max(salary) where RegNo=1922;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from faculty max(salary) where RegNo=1922' at line 1
+mysql> select max(salary) where RegNo=1922;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where RegNo=1922' at line 1
+mysql> select max(salary) from faculty;
++-------------+
+| max(salary) |
++-------------+
+|       80000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select * from faculty where salary=80000 and RegN0=1922;
+ERROR 1054 (42S22): Unknown column 'RegN0' in 'where clause'
+mysql> select * from faculty where salary=80000 and RegNo=1922;
++---------------+--------+-----------+--------+-------+
+| Fac_Name      | Gender | Mobile_No | Salary | RegNo |
++---------------+--------+-----------+--------+-------+
+| BarneyStinson | M      | 807271709 |  80000 |  1922 |
++---------------+--------+-----------+--------+-------+
+1 row in set (0.00 sec)
+
+mysql>
