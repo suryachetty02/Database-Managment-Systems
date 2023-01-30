@@ -1,0 +1,45 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 20
+Server version: 5.5.62 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> grant all on surya.* TO root@localhost;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> show grants for root@localhost;
++----------------------------------------------------------------------------------------------------------------------------------------+
+| Grants for root@localhost                                                                                                              |
++----------------------------------------------------------------------------------------------------------------------------------------+
+| GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY PASSWORD '*114B8B9A218CD29D2C64867A4318C69CF607AA0C' WITH GRANT OPTION |
+| GRANT ALL PRIVILEGES ON `surya`.* TO 'root'@'localhost'                                                                                |
+| GRANT PROXY ON ''@'' TO 'root'@'localhost' WITH GRANT OPTION                                                                           |
++----------------------------------------------------------------------------------------------------------------------------------------+
+3 rows in set (0.00 sec)
+
+mysql> REVOKE ALL, GRANT OPTION FORM root@localhost;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FORM root@localhost' at line 1
+mysql> REVOKE ALL, GRANT OPTION FROM root@localhost;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> grant all on surya.* TO root@localhost;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show grants for root@localhost;
++-------------------------------------------------------------------------------------------------------------+
+| Grants for root@localhost                                                                                   |
++-------------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO 'root'@'localhost' IDENTIFIED BY PASSWORD '*114B8B9A218CD29D2C64867A4318C69CF607AA0C' |
+| GRANT ALL PRIVILEGES ON `surya`.* TO 'root'@'localhost'                                                     |
+| GRANT PROXY ON ''@'' TO 'root'@'localhost' WITH GRANT OPTION                                                |
++-------------------------------------------------------------------------------------------------------------+
+3 rows in set (0.00 sec)
+
+mysql>
