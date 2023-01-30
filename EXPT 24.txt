@@ -27,3 +27,4 @@ mysql> select car_no, car_name from cars where return_date = '2022.05.05';
 |     13 | Ford     |
 +--------+----------+
 1 row in set (0.00 sec)
+
