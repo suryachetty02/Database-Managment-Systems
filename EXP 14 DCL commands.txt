@@ -41,5 +41,3 @@ mysql> show grants for root@localhost;
 | GRANT PROXY ON ''@'' TO 'root'@'localhost' WITH GRANT OPTION                                                |
 +-------------------------------------------------------------------------------------------------------------+
 3 rows in set (0.00 sec)
-
-mysql>
