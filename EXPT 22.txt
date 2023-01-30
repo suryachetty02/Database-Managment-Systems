@@ -42,5 +42,3 @@ mysql> select * from books;
 |    4 | Perscy Jackson | Smitha         | UK                |
 +------+----------------+----------------+-------------------+
 4 rows in set (0.00 sec)
-
-mysql>
